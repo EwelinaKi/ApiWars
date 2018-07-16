@@ -1,0 +1,85 @@
+
+<% if (planets === "error" || planets.detail) {%>
+
+    <div class="alert alert-info" role="alert">
+        Sorry, cannot load data.
+    </div>
+
+<% } else if (planets.results[0] === undefined) { %>
+    <div class="alert alert-info" role="alert">
+        There's no planet with this name.
+    </div>
+
+<% } else { %>
+    <table class="table table-hover ">
+        <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Diameter</th>
+            <th scope="col">Climate</th>
+            <th scope="col">Terrain</th>
+            <th scope="col">Water</th>
+            <th scope="col">Population</th>
+            <th scope="col">Residents</th>
+            <th scope="col">Vote</th>
+        </tr>
+        </thead>
+        <tbody>
+            <% for (let planet of planets.results) { %>
+                <tr>
+                    <td><%= planet.name %></td>
+                    <td><%= planet.diameter %> km</td>
+                    <td><%= planet.climate %></td>
+                    <td><%= planet.terrain %></td>
+                    <td><%= planet.surface_water=="unknown" ? "unknown" : planet.surface_water + "%" %></td>
+
+                    <!--Format population's value-->
+                        <%  let population   %>
+                        <%  if (planet.population === "unknown") {%>
+                        <%     population = "unknown" %>
+                        <% }  else if (planet.population < 1000000) {%>
+                        <%     population = +planet.population/1000 + " k" %>
+                        <% }  else if (planet.population >= 1000000 && planet.population < 1000000000) {%>
+                        <%     population = +planet.population/1000000 + " mln" %>
+                        <% }  else {%>
+                        <%     population = +planet.population/1000000000 + " bln" %>
+                        <% }%>
+                    <td><%= population %></td>
+
+                    <% if (planet.residents.length == 0) {%>
+                        <td class="text-center">None</td>
+                    <% } else { %>
+                        <td class="text-center align-middle">
+                            <button type="button"
+                                    class="btn btn-outline-secondary btn-sm"
+                                    name="<%=planet.name%>"
+                                    onclick="fillModal(this)"
+                                    data-toggle="modal"
+                                    data-target=".bd-example-modal-lg">Show
+                            </button>
+                        </td>
+                    <% } %>
+                    <td class="text-center align-middle">
+                        <button type="button"
+                                class="btn btn-outline-secondary btn-sm ">Vote
+                        </button>
+                    </td>
+                </tr>
+            <% } %>
+
+        </tbody>
+    </table>
+
+    <!-- Show next site results buttons-->
+
+    <% const numberOfButtons = Math.ceil(planets.count/10) %>
+    <div class="btn-toolbar justify-content-end" role="toolbar" aria-label="Sites">
+            <% for(var i=1; i <= numberOfButtons; i++) { %>
+                <button type="button"
+                        class="<%= i == page ?  'btn btn-success mr-1' : 'btn btn-outline-success mr-1'%>"
+                        onclick="location.href='<%= siteUrl + "planets/page/" + i %>'"><%= i %>
+                </button>
+            <% } %>
+    </div>
+
+<% } %>

@@ -1,0 +1,41 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <span class="navbar-brand mb-0 h1" >API WARS</span>
+    <div class="collapse navbar-collapse bg-indigo" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">Planets<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Stats<span class="sr-only"></span></a>
+            </li>
+            <li class="nav-item active">
+                <% if (user) { %>
+                     <a class="nav-link" href="/stats">Logout</a>
+                <% } else { %>
+                     <a class="nav-link" href="/login">Login</a>
+                <% } %>
+            </li>
+            <li class="nav-item">
+                <% if (user) { %>
+                    <a class="nav-link" href="#">Signed as <%= user.name %></a>
+                <% } else { %>
+                    <span class="nav-link disabled">You are not logged</span>
+                <% } %>
+            </li>
+
+        </ul>
+
+        <form class="form-inline my-2 my-lg-0">
+            <input id="search"
+                   class="form-control mr-sm-2"
+                   type="search"
+                   placeholder="Search planet..."
+                   aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0"
+                    type="submit"
+                    onclick="searchPlanet()">Search
+            </button>
+
+        </form>
+    </div>
+</nav>
