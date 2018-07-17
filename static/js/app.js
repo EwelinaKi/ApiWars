@@ -21,12 +21,16 @@ async function fillModal(button) {
     const residents = await planetInfo.json();
 
     generateResidentsTable(planetName, residents, modal)
+}
 
+function votePlanet(button){
+    fetch(`/vote/${button.name}`);
 }
 
 
+
+
 function generateResidentsTable(planetName, residents) {
-    console.log("Residents:", residents);
 
     const header = document.createElement("h2");
     header.className = "text-center m-5";
