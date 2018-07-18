@@ -2,16 +2,16 @@ const express = require('express');
 const mongo = require('./js/connectDB');
 const swapi = require('./js/connectAPI');
 const authentication = require('./js/authentication');
-// const session = require('passport-session');
+const session = require('express-session');
+const bodyParser = require('body-parser');
 const app = express();
 const siteUrl = "http://localhost:3000/";
 
-var bodyParser = require('body-parser');
 app.use(express.json());       // to support JSON-encoded bodies
 // app.use(express.urlencoded()); // to support URL-encoded bodies
 app.use(bodyParser.urlencoded({extended: true})); // for parsing application/x-www-form-urlencoded
-// app.use(bodyParser.json());
 app.use(express.static('static')); //allows to load static files
+app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}));
 app.set('view engine', 'ejs');  // set html templates
 
 
@@ -27,6 +27,15 @@ app.get("/", (req, res) => {
 });
 
 
+app.get("/search/planets/:planetName", async (req, res) => {
+    const planets = await swapi.search("planets", req.params.planetName);
+    if (planets === "error") {
+        res.json({error: "error"});
+    }
+    res.render('index.ejs', {planets: planets, page: 1, siteUrl: siteUrl, userP: req.session.user})
+});
+
+
 app.get("/search/residents/:planetName", async (req, res) => {
     const planet = await swapi.search("planets", req.params.planetName);
     if (planet === "error") {
@@ -38,26 +47,16 @@ app.get("/search/residents/:planetName", async (req, res) => {
 });
 
 
-app.get("/search/planets/:planetName", async (req, res) => {
-    const planets = await swapi.search("planets", req.params.planetName);
-    if (planets === "error") {
-        res.json({error: "error"});
-    }
-    res.render('index.ejs', {planets: planets, page: 1, siteUrl: siteUrl})
-});
-
-
 app.get("/planets/page/:page_id", async (req, res) => {
     const page = req.params.page_id === undefined ? 1 : req.params.page_id;
     const planets = await swapi.getAll('planets', page);
-    res.render('index.ejs', {planets: planets, page: page, siteUrl: siteUrl})
+    res.render('index.ejs', {planets: planets, page: page, siteUrl: siteUrl, userP: req.session.user})
 });
 
 
 app.get("/stats", async (req, res) => {
     let planets = await mongo.getPlanets();
-    console.log("recived planets", planets);
-    res.render('stats.ejs', {planets: planets})
+    res.render('stats.ejs', {planets: planets, userP: req.session.user})
 });
 
 
@@ -68,31 +67,34 @@ app.get("/vote/:planetName", (req, res) => {
 
 
 app.get("/login", async (req, res) => {
-    res.render('login.ejs', {status: "LOG"})
+    res.render('login.ejs', {status: "LOG", userP: req.session.user})
+});
+
+
+app.get("/logout", async (req, res) => {
+    req.session.user = undefined;
+    res.render('login.ejs', {status: "LOG", userP: req.session.user})
 });
 
 
 app.post("/signup", async (req, res) => {
-    console.log(`${JSON.stringify(req.body)}`);
     try {
         const user = authentication.newUser(req.body);
+        req.session.user = user.email;
         res.redirect('/planets/page/1');
-        // res.redirect('/planets/page/1', {user});
-
     } catch (err) {
-        res.render('login.ejs', {status: err.message});
+        res.render('login.ejs', {status: err.message, userP: req.session.user});
     }
-
 });
 
 
 app.post("/signin", async (req, res) => {
     try {
         const user = await authentication.findUser(req.body);
+        req.session.user = user.email;
         res.redirect('/planets/page/1');
-        // res.redirect('/planets/page/1', {user});
     } catch (err) {
-        res.render('login.ejs', {status: err.message});
+        res.render('login.ejs', {status: err.message, userP: req.session.user});
     }
 });
 

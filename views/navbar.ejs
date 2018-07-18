@@ -16,7 +16,7 @@
 </style>
 
 <body class="container w-80" >
-
+<%#console.log("navbar template recived user: ", userP)%>
 
 <!--navbar-->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -30,17 +30,17 @@
                 <a class="nav-link" href="/stats">Stats<span class="sr-only"></span></a>
             </li>
             <li class="nav-item active">
-                <% if (user) { %>
-                     <a class="nav-link" href="/">Logout</a>
+                <% if (!userP) { %>
+                    <a class="nav-link" href="/login">Login</a>
                 <% } else { %>
-                     <a class="nav-link" href="/login">Login</a>
+                    <a class="nav-link" href="/logout">Logout</a>
                 <% } %>
             </li>
             <li class="nav-item">
-                <% if (user) { %>
-                    <a class="nav-link" href="#">Signed as <%= user.name %></a>
-                <% } else { %>
+                <% if (!userP) { %>
                     <span class="nav-link disabled">You are not logged</span>
+                <% } else { %>
+                    <span class="nav-link disabled">Signed as <%= userP %></span>
                 <% } %>
             </li>
 

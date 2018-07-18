@@ -21,14 +21,22 @@
             <th scope="col">Water</th>
             <th scope="col">Population</th>
             <th scope="col">Residents</th>
+            <% if (user) {%>
             <th scope="col">Vote</th>
+            <% } %>
         </tr>
         </thead>
         <tbody>
             <% for (let planet of planets.results) { %>
                 <tr>
                     <td><%= planet.name %></td>
-                    <td><%= planet.diameter %> km</td>
+                    <% if( planet.diameter=="unknown") { %>
+                        <td>unknown</td>
+                    <%} else if( planet.diameter== 0) { %>
+                        <td> - </td>
+                    <%} else { %>
+                        <td><%= planet.diameter + " km" %></td>
+                    <%}%>
                     <td><%= planet.climate %></td>
                     <td><%= planet.terrain %></td>
                     <td><%= planet.surface_water=="unknown" ? "unknown" : planet.surface_water + "%" %></td>
@@ -59,6 +67,8 @@
                             </button>
                         </td>
                     <% } %>
+
+                    <% if (user) {%>
                     <td class="text-center align-middle">
                             <button type="button"
                                     name="<%=planet.name%>"
@@ -69,6 +79,7 @@
                                     >Vote
                             </button>
                     </td>
+                    <% } %>
                 </tr>
             <% } %>
 
@@ -76,7 +87,6 @@
     </table>
 
     <!-- Show next site results buttons-->
-
     <% const numberOfButtons = Math.ceil(planets.count/10) %>
     <div class="btn-toolbar justify-content-end" role="toolbar" aria-label="Sites">
          <% if (numberOfButtons > 1) {%>

@@ -1,8 +1,9 @@
 
-        <%- include('navbar', {user: false}); %>
+        <%- include('navbar', {user: userP}); %>
 
         <h1 class="m-3 mt-5">Star Wars Universe: Planets</h1>
-        <%- include('planetsTable', {planets: planets, page: page, siteUrl: siteUrl}); %>
+        <%#- include('planetsTable'); %>
+        <%- include('planetsTable', {planets: planets, page: page, siteUrl: siteUrl, user: userP}); %>
 
         <%- include('modal'); %>
 
