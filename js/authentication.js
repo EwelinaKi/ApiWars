@@ -7,7 +7,7 @@ module.exports = {
 
     newUser(data) {
         if (!this.validateEmail(data.email)) {
-            throw new Error('Invalid email provided');
+            throw new Error('ERREMAIL');
         }
         const salt = bcrypt.genSaltSync(8);
         const newUser = {
@@ -24,7 +24,7 @@ module.exports = {
         if (user && user.password === this.generateHash(data.password, user.salt)) {
             return {email: user.email};
         }
-        throw new Error("Invalid username or password");
+        throw new Error("ERRLOG");
     },
 
     generateHash(password, salt) {

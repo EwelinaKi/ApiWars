@@ -1,27 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>API WARS</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
-</head>
-
-<style>
-    body {background-image: url("/img/bcg1.jpg");}
-    card {background-color: rgba(255,255,255, .9)}
-</style>
-
-
-
-<body class="container w-80">
 
 <%- include('navbar', {user: false}); %>
 
 
 <div class="row mt-5 d-flex justify-content-center" >
-    <div class="card m-5">
-        <h5 class="card-header w-30">Login</h5>
+    <div class="card m-5" style="width: 20rem;">
+        <h5 class="card-header">Login</h5>
         <div class="card-body">
             <h5 class="card-title">Welcome back!</h5>
             <p class="card-text">Login to your account.</p>
@@ -34,9 +17,16 @@
                            aria-describedby="emailHelp"
                            name="email"
                            placeholder="Enter email">
-                    <small id="emailHelpLogin"
-                           class="form-text text-muted">We'll never share your email with anyone else .
-                    </small>
+                    <% if (status === "ERRLOG") { %>
+                        <small id="emailHelpLogin" class="form-text text-danger">
+                            Invalid username or password
+                        </small>
+                    <% } else {%>
+                        <small id="emailHelpLogin" class="form-text text-muted">
+                            We'll never share your email with anyone else.
+                        </small>
+                    <% } %>
+
                 </div>
                 <div class="form-group">
                     <label for="loginPassword">Password</label>
@@ -46,11 +36,11 @@
                            name="password"
                            placeholder="Password">
                 </div>
-                <button type="submit" class="btn btn-success">Login</button>
+                <button type="submit" class="btn btn-info">Login</button>
             </form>
         </div>
     </div>
-    <div class="card m-5 w-30" >
+    <div class="card m-5" style="width: 20rem;">
         <h5 class="card-header">Register</h5>
         <div class="card-body">
             <h5 class="card-title">First time?</h5>
@@ -63,11 +53,16 @@
                            id="registerEmail"
                            aria-describedby="emailHelp"
                            placeholder="Enter email"
-                           value="ggg@ggg"
                            name="email">
-                    <small id="emailHelpRegister"
-                           class="form-text text-muted">We'll never share your email with anyone else.
+                    <% if (status === "ERREMAIL") { %>
+                    <small id="emailHelpLogin" class="form-text text-danger">
+                        Invalid email provided
                     </small>
+                    <% } else {%>
+                    <small id="emailHelpLogin" class="form-text text-muted">
+                        We'll never share your email with anyone else.
+                    </small>
+                    <% } %>
                 </div>
                 <div class="form-group">
                     <label for="registerPassword">Password</label>
@@ -75,10 +70,9 @@
                            class="form-control"
                            id="registerPassword"
                            name="password"
-                           value="ggg"
                            placeholder="Password">
                 </div>
-                <button type="submit" class="btn btn-success">Register</button>
+                <button type="submit" class="btn btn-info">Register</button>
             </form>
         </div>
     </div>

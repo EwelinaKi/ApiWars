@@ -1,26 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>API WARS</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
-</head>
 
-<style>
-    body {background-image: url("/img/bcg1.jpg");}
-    td, th {background-color: rgba(255,255,255, .9)}
-</style>
-
-<body class="container w-80" >
 
  <!--navbar-->
 <%- include('navbar', {user: false}); %>
-
 <h1 class="m-3 mt-5">Planets popularity:</h1>
 
 <!--handle errors-->
-<% if (planets === "error") {%>
+<% if (planets === "error") { %>
         <div class="alert alert-info" role="alert">
             Sorry, cannot load data.
         </div>
@@ -32,26 +17,28 @@
 
  <!--generate table-->
 <% } else { %>
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col">Planet</th>
-                    <th scope="col">Votes</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% for  (let i=0; i<planets.length; i++) { %>
-                <tr>
-                    <td><%= i+1 %></td>
-                    <td><%= planets[i].planet%></td>
-                    <td><%= planets[i].votes%></td>
-                </tr>
-                <% } %>
-            </tbody>
-        </table>
-<% } %>
 
+    <div class="d-flex justify-content-center">
+         <table class="table table-hover mb-5 mt-5 w-50 text-center">
+             <thead>
+             <tr>
+                 <th scope="col"></th>
+                 <th scope="col">Planet</th>
+                 <th scope="col">Votes</th>
+             </tr>
+             </thead>
+             <tbody>
+             <% for  (let i=0; i<planets.length; i++) { %>
+             <tr>
+                 <td><%= i+1 %></td>
+                 <td><%= planets[i].planet%></td>
+                 <td><%= planets[i].votes%></td>
+             </tr>
+             <% } %>
+             </tbody>
+         </table>
+     </div>
+<% } %>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>

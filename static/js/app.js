@@ -5,9 +5,9 @@ const SEARCH = document.getElementById("search");
 
 
 function searchPlanet() {
-    fetch(`/search/planets/${SEARCH.value}`);
-
+    window.location.href =  `http://localhost:3000/search/planets/${SEARCH.value}`;
 }
+
 
 async function fillModal(button) {
     LOADER.innerHTML="<img src=\"/img/loader.gif\"/>";
@@ -22,12 +22,6 @@ async function fillModal(button) {
 
     generateResidentsTable(planetName, residents, modal)
 }
-
-function votePlanet(button){
-    fetch(`/vote/${button.name}`);
-}
-
-
 
 
 function generateResidentsTable(planetName, residents) {

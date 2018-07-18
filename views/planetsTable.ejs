@@ -11,7 +11,7 @@
     </div>
 
 <% } else { %>
-    <table class="table table-hover ">
+    <table class="table table-hover mt-5 mb-5">
         <thead>
         <tr>
             <th scope="col">Name</th>
@@ -60,11 +60,14 @@
                         </td>
                     <% } %>
                     <td class="text-center align-middle">
-                        <button type="button"
-                                name="<%=planet.name%>"
-                                onclick="votePlanet(this)"
-                                class="btn btn-outline-secondary btn-sm ">Vote
-                        </button>
+                            <button type="button"
+                                    name="<%=planet.name%>"
+                                    data-toggle="modal"
+                                    data-target="#voteModal"
+                                    class="btn btn-outline-secondary btn-sm "
+                                    onclick="location.href='<%= siteUrl + "vote/" + planet.name %>'"
+                                    >Vote
+                            </button>
                     </td>
                 </tr>
             <% } %>
@@ -76,12 +79,14 @@
 
     <% const numberOfButtons = Math.ceil(planets.count/10) %>
     <div class="btn-toolbar justify-content-end" role="toolbar" aria-label="Sites">
+         <% if (numberOfButtons > 1) {%>
             <% for(var i=1; i <= numberOfButtons; i++) { %>
                 <button type="button"
-                        class="<%= i == page ?  'btn btn-success mr-1' : 'btn btn-outline-success mr-1'%>"
+                        class="<%= i == page ?  'btn btn-outline-info mr-1 mb-5' : 'btn btn-info mr-1 mb-5'%>"
                         onclick="location.href='<%= siteUrl + "planets/page/" + i %>'"><%= i %>
                 </button>
             <% } %>
+        <% } %>
     </div>
 
 <% } %>
