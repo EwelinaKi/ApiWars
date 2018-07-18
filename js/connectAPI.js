@@ -18,6 +18,7 @@ module.exports = {
     search: async (category, name) => {
 
         try {
+            // const response = await fetch(`${endPoint}${elements}/gttererg=${page}`);
             const response = await fetch(`${endPoint}${category}/?search=${name}`);
             return await response.json();
         } catch (err) {

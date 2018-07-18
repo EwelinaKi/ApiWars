@@ -96,6 +96,15 @@ app.post("/signin", async (req, res) => {
     } catch (err) {
         res.render('login.ejs', {status: err.message, userP: req.session.user});
     }
+
+});
+
+
+app.use(function (req, res, next) {
+
+    // res.status(404).send("Sorry can't find that!")
+
+    res.render("404.ejs", {userP: req.session.user})
 });
 
 

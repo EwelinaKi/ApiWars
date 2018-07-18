@@ -9,8 +9,9 @@ module.exports = {
         MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
             if (err) return console.log(err);
             db = client.db('apiwars'); // database name
+
             // start the server only if db is connected
-            console.log("connectDB");
+            console.log("database connected");
             callback();
 
         });
@@ -46,7 +47,6 @@ module.exports = {
 
     addNewUser: async (user) => {
         return await db.collection('users').insertOne(user)
-        // db.collection('users').insertOne(user, function(err, result) {})
     },
 
 
