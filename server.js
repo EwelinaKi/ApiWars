@@ -8,7 +8,6 @@ const app = express();
 const siteUrl = "http://localhost:3000/";
 
 app.use(express.json());       // to support JSON-encoded bodies
-// app.use(express.urlencoded()); // to support URL-encoded bodies
 app.use(bodyParser.urlencoded({extended: true})); // for parsing application/x-www-form-urlencoded
 app.use(express.static('static')); //allows to load static files
 app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}));
@@ -29,9 +28,6 @@ app.get("/", (req, res) => {
 
 app.get("/search/planets/:planetName", async (req, res) => {
     const planets = await swapi.search("planets", req.params.planetName);
-    if (planets === "error") {
-        res.json({error: "error"});
-    }
     res.render('index.ejs', {planets: planets, page: 1, siteUrl: siteUrl, userP: req.session.user})
 });
 
@@ -55,8 +51,13 @@ app.get("/planets/page/:page_id", async (req, res) => {
 
 
 app.get("/stats", async (req, res) => {
-    let planets = await mongo.getPlanets();
-    res.render('stats.ejs', {planets: planets, userP: req.session.user})
+    try {
+        let planets = await mongo.getPlanets();
+        res.render('stats.ejs', {planets: planets, userP: req.session.user})
+    } catch (err) {
+        let planets = err;
+        res.render('stats.ejs', {planets: planets, userP: req.session.user})
+    }
 });
 
 
@@ -79,7 +80,8 @@ app.get("/logout", async (req, res) => {
 
 app.post("/signup", async (req, res) => {
     try {
-        const user = authentication.newUser(req.body);
+        await authentication.findUser(req.body);
+        const user = await authentication.newUser(req.body);
         req.session.user = user.email;
         res.redirect('/planets/page/1');
     } catch (err) {
@@ -90,7 +92,7 @@ app.post("/signup", async (req, res) => {
 
 app.post("/signin", async (req, res) => {
     try {
-        const user = await authentication.findUser(req.body);
+        const user = await authentication.authorizeUser(req.body);
         req.session.user = user.email;
         res.redirect('/planets/page/1');
     } catch (err) {
@@ -100,10 +102,7 @@ app.post("/signin", async (req, res) => {
 });
 
 
-app.use(function (req, res, next) {
-
-    // res.status(404).send("Sorry can't find that!")
-
+app.use(function (req, res) {
     res.render("404.ejs", {userP: req.session.user})
 });
 

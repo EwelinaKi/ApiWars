@@ -18,13 +18,21 @@ module.exports = {
         return {email: data.email}
     },
 
-    async findUser(data) {
-        const user = await mongo.findByEmail(data.email);
-        if (user && user.password === this.generateHash(data.password, user.salt)) {
-            return {email: user.email};
+    async authorizeUser(user) {
+        const userFromDB = await mongo.findByEmail(user.email);
+        if (userFromDB && userFromDB.password === this.generateHash(user.password, userFromDB.salt)) {
+            return {email: userFromDB.email};
         }
         throw new Error("ERRLOG");
     },
+
+    async findUser(user) {
+        const userFromDB = await mongo.findByEmail(user.email);
+        console.log(userFromDB);
+        if (user.password.length < 4) throw new Error("ERRPAS");
+        if (userFromDB) throw new Error("ERREXI");
+    },
+
 
     generateHash(password, salt) {
         return bcrypt.hashSync(password, salt, null);

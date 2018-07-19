@@ -21,7 +21,6 @@
                                    id="loginEmail"
                                    aria-describedby="emailHelp"
                                    name="email"
-                                   value="ggg@ggg.com"
                                    placeholder="Enter email">
                             <% if (status === "ERRLOG") { %>
                                 <small id="emailHelpLogin" class="form-text text-danger">
@@ -40,7 +39,6 @@
                                    class="form-control"
                                    id="loginPassword"
                                    name="password"
-                                   value="ggg"
                                    placeholder="Password">
                         </div>
                         <button type="submit" class="btn btn-info">Login</button>
@@ -60,10 +58,11 @@
                                    id="registerEmail"
                                    aria-describedby="emailHelp"
                                    placeholder="Enter email"
-                                   name="email">
-                            <% if (status === "ERREMAIL") { %>
+                                   name="email"
+                                   required>
+                            <% if (status === "ERREXI") { %>
                             <small id="emailHelpLogin" class="form-text text-danger">
-                                Invalid email provided
+                                You already have an account. Try to login.
                             </small>
                             <% } else {%>
                             <small id="emailHelpLogin" class="form-text text-muted">
@@ -77,7 +76,15 @@
                                    class="form-control"
                                    id="registerPassword"
                                    name="password"
-                                   placeholder="Password">
+                                   pattern=".{4,}"
+                                   required title="4 characters minimum"
+                                   placeholder="Password"
+                                   required>
+                            <% if (status === "ERRPAS") { %>
+                            <small id="passwordHelpLogin" class="form-text text-danger">
+                                Password must have at least 4 characters.
+                            </small>
+                            <% }%>
                         </div>
                         <button type="submit" class="btn btn-info">Register</button>
                     </form>
