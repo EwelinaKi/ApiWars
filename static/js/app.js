@@ -30,6 +30,7 @@ function generateResidentsTable(planetName, residents) {
     header.className = "text-center m-5";
     header.innerText = planetName;
     MODAL.append(header);
+
     const table = document.createElement("table");
     table.className = "table table-hover text-center";
     table.id = "table";

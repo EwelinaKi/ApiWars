@@ -46,6 +46,7 @@ app.get("/search/residents/:planetName", async (req, res) => {
 app.get("/planets/page/:page_id", async (req, res) => {
     const page = req.params.page_id === undefined ? 1 : req.params.page_id;
     const planets = await swapi.getAll('planets', page);
+
     res.render('index.ejs', {planets: planets, page: page, siteUrl: siteUrl, userP: req.session.user})
 });
 

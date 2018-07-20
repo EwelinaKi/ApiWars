@@ -28,7 +28,6 @@ module.exports = {
 
     async findUser(user) {
         const userFromDB = await mongo.findByEmail(user.email);
-        console.log(userFromDB);
         if (user.password.length < 4) throw new Error("ERRPAS");
         if (userFromDB) throw new Error("ERREXI");
     },

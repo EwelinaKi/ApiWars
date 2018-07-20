@@ -1,5 +1,5 @@
 const MongoClient = require('mongodb').MongoClient;
-const assert = require('assert');
+// const assert = require('assert');
 const url =  'mongodb://ewka:mongodb456@ds143070.mlab.com:43070/apiwars';
 let db;
 
